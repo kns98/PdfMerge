@@ -106,14 +106,29 @@ public class PdfMerger
 }
 
 // Example usage with command line arguments
-class Program
+public class Program
 {
-    static internal void Main(string[] args)
+    public static void Main(string[] args)
     {
-        IPdfMerger mergerInterface = new CommandLinePdfMerger();
-        var pageRanges = mergerInterface.CollectMergeInfo(args);
-        string outputFilePath = args.Length > 0 ? args[0] : "mergedPdf.pdf";
+        Parser.Default.ParseArguments<Options>(args)
+            .WithParsed<Options>(opts =>
+            {
+                IPdfMerger mergerInterface = new CommandLinePdfMerger();
+                var pageRanges = mergerInterface.CollectMergeInfo(args);
+                string outputFilePath = opts.OutputFile; // Get the output file path from the parsed options
 
-        PdfMerger.MergePdfs(pageRanges, outputFilePath);
+                PdfMerger.MergePdfs(pageRanges, outputFilePath);
+            })
+            .WithNotParsed<Options>((errs) =>
+            {
+                // Handle errors or invalid arguments
+                Console.WriteLine("Error parsing command line arguments.");
+                foreach (var err in errs)
+                {
+                    Console.WriteLine(err.ToString());
+                }
+            });
+
+        
     }
 }

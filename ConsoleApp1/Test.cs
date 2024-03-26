@@ -1,52 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
-namespace ConsoleApp1
+public class PdfMergerTest
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    public class PdfMergerTest
+    static void Test()
     {
-        static void TestMergePdfs()
+        // Single string simulating the command line input
+        string commandLine = "-o outputTest.pdf -i pdf1.pdf:1-2 pdf2.pdf:1,3-4";
+
+        // Split the string into an array of arguments
+        // Note: This simple split method works here because there are no spaces in file names or paths.
+        // For more complex scenarios, consider a method that correctly handles quoted arguments.
+        string[] testArgs = commandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+
+        // Call the Main method with the simulated arguments
+        Program.Main(testArgs);
+
+        // Check if the output PDF has been created to verify the test result
+        string outputPath = "outputTest.pdf";
+        if (File.Exists(outputPath))
         {
-            // Simulate command line arguments: output file and input files with page ranges
-            string[] testArgs = new string[]
-            {
-            "-o", "outputTest.pdf", // Output file
-            "-i", "input1.pdf:1-2", "input2.pdf:1,3-4" // Input files and their page ranges
-            };
-
-            // Set up a directory for test files (adjust the path as needed)
-            string testDirectory = Path.Combine(Environment.CurrentDirectory, "TestFiles");
-            Directory.CreateDirectory(testDirectory);
-
-            // Update the paths in testArgs to point to the actual test PDF files
-            for (int i = 2; i < testArgs.Length; i += 2)
-            {
-                testArgs[i] = Path.Combine(testDirectory, testArgs[i]);
-            }
-
-            // Call the Main method with the test arguments
-            Program.Main(testArgs);
-
-            // Verify the output
-            string outputPath = Path.Combine(testDirectory, "outputTest.pdf");
-            if (File.Exists(outputPath))
-            {
-                Console.WriteLine("Test Passed: Output PDF file created successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Test Failed: Output PDF file was not created.");
-            }
-
-            // Additional verifications can be added here, such as checking the page count of the output PDF
+            Console.WriteLine("Test Passed: Output PDF file created successfully.");
         }
-    }
+        else
+        {
+            Console.WriteLine("Test Failed: Output PDF file was not created.");
+        }
 
+        // Here you could add additional checks, such as verifying the content or page count of the output PDF
+    }
 }
