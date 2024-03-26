@@ -12,4 +12,13 @@
     <PackageReference Include="PDFsharp" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="pdf1.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="pdf2.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

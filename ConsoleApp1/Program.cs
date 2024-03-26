@@ -108,7 +108,7 @@ public class PdfMerger
 // Example usage with command line arguments
 class Program
 {
-    static void Main(string[] args)
+    static internal void Main(string[] args)
     {
         IPdfMerger mergerInterface = new CommandLinePdfMerger();
         var pageRanges = mergerInterface.CollectMergeInfo(args);
